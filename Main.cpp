@@ -55,16 +55,63 @@ void SequentialSort(int input[], int size)
 
 // Selection Sort
 // 선택 정렬 ( 작은 값을 찾아서 앞쪽에 정렬하는 것 -> Ranking에 의해서 정렬 되는 것 )
+// TimeComplexity : O(n^2)
+// SpaceComplexity : 0(n)
+void SelectionSort(int input[], int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		int minIndex = i;
+		for (int j = i; j < size; j++)
+		{
+			if (input[minIndex] > input[j])
+			{
+				minIndex = j;
+			}
+		}
+		Swap(input[i], input[minIndex]);
+	}
+	
+}
 
 
+// Bubble Sort
+// 버블 정렬 ( 2개씩 묶어서 더 큰 값을 내보내는 것 )
+// TimeComplexity : O(n^2)
+// SpaceComplexity : O(n)
+void BubbleSort(int input[], int size)
+{
+	for (int i = 0; i < size - 1; i++)
+	{
+		for (int j = 0; j < size - i - 1; j++)
+		{
+			if (input[j] > input[j + 1])
+			{
+				Swap(input[j], input[j + 1]);
+			}
+		}
+	}
+}
+
+
+// Insertion Sort
+// 삽입 정렬 ( 자신이 있을 위치에 찾아 들어가는 것, 나보다 작은 값 뒤에 서면 된다는데 이거 너무 어렵다...ㅠㅠ )
+// TimeComplexity :
+// SpaceComplexity :
+
+void InsertionSort(int input[], int size)
+{
+	
+}
 
 int main()
 {
 	const int ARRAY_SIZE{ 5 };
 	int array[ARRAY_SIZE]{ 8,7,2,3,1 };
 
-	SequentialSort(array, ARRAY_SIZE);
-
+	//SequentialSort(array, ARRAY_SIZE);
+	//SelectionSort(array, ARRAY_SIZE);
+	//BubbleSort(array, ARRAY_SIZE);
 	Print(array, ARRAY_SIZE);
 	
 }
