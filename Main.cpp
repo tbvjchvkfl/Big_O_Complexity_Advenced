@@ -96,12 +96,130 @@ void BubbleSort(int input[], int size)
 
 // Insertion Sort
 // 삽입 정렬 ( 자신이 있을 위치에 찾아 들어가는 것, 나보다 작은 값 뒤에 서면 된다는데 이거 너무 어렵다...ㅠㅠ )
-// TimeComplexity :
-// SpaceComplexity :
+// TimeComplexity : O(n^2)
+// SpaceComplexity : O(n)
 
 void InsertionSort(int input[], int size)
 {
-	
+	for (int i = 1; i < size; i++)
+	{
+		// j는 i 부터 시작
+		int j = i;
+
+		// temp용 swap하기 위함
+		int target = input[i];
+
+		while (--j >= 0 && target < input[j])
+		{
+			input[j + 1] = input[j];
+			input[j] = target;
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Merge Sort
+// 병합 정렬 / 합병 정렬
+// Time Complexity : O(n log n)
+// Space Complexity : O(n)
+void Merge(int input[], int start, int half, int end, int temp[])
+{
+	int i{ start };
+	int j{ half + 1 };
+	int tempIndex{};
+
+	while (i <= half && j <= end)
+	{
+		if (input[i] < input[j])
+		{
+			temp[tempIndex++] = input[i++];
+		}
+		else 
+		{
+			temp[tempIndex++] = input[j++];
+		}
+	}
+
+	// 남아 있는 것 병합
+	while (i <= half)
+	{
+		temp[tempIndex++] = input[i++];
+	}
+	while (j <= end)
+	{
+		temp[tempIndex++] = input[j++];
+	}
+
+	// 임시 배열 -> 원래 배열로 복사
+	tempIndex = 0;
+	for (int i = start; i <= end; i++)
+	{
+		input[i] = temp[tempIndex++];
+	}
+}
+
+void MergeSort(int input[], int start, int end, int temp[])
+{
+	// Base case
+	if (start >= end)
+	{
+		return;
+	}
+
+	// 배열의 절반을 찾을 때는 전체 길이에서 반으로 나눠야한다.
+	int half = (start + end) / 2;
+
+	// Recursive case
+	MergeSort(input, start, half, temp);
+	MergeSort(input, half + 1, end, temp);
+
+	//Merge
+	Merge(input, start, half, end, temp);
+}
+
+// Quick Sort
+// 빠른 정렬 - MergeSort는 임시 배열이 함께 가야한다는 단점이 있음. 그것을 보완하고자 만들어진 정렬 알고리즘
+// 전체 배열에서 임의의 하나의 값을 Pivot으로 지정
+// Pivot을 기준으로 좌우로 분할
+// Pivot보다 작은 값을 Pivot의 왼쪽에  Pivot보다 큰 값을 Pivot의 오른쪽에 정렬하는 것
+
+// TimeComplexity : O(n log n)
+// SpaceComplexity : O(n)
+void QuickSort(int input[], int left, int right)
+{
+	int i = left;
+	int j = right;
+	int pivot = input[(left + right) / 2];
+
+	do
+	{
+		while (input[i] < pivot)
+		{
+			i++;
+		}
+		while (input[j] > pivot)
+		{
+			j--;
+		}
+
+		if (i <= j)
+		{
+			Swap(input[i], input[j]);
+			i++;
+			j--;
+		}
+
+	} while (i <= j);
+
+	if (left < j)
+	{
+		QuickSort(input, left, j);
+	}
+	if (i < right)
+	{
+		QuickSort(input, i, right);
+	}
 }
 
 int main()
@@ -112,6 +230,13 @@ int main()
 	//SequentialSort(array, ARRAY_SIZE);
 	//SelectionSort(array, ARRAY_SIZE);
 	//BubbleSort(array, ARRAY_SIZE);
+	//InsertionSort(array, ARRAY_SIZE);
+
+	/*int tempArray[ARRAY_SIZE]{};
+	MergeSort(array, 0, ARRAY_SIZE - 1, tempArray);*/
+	
+	QuickSort(array, 0, ARRAY_SIZE - 1);
+
 	Print(array, ARRAY_SIZE);
 	
 }
